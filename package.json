@@ -11,7 +11,12 @@
   "bin": {
     "claudepretty": "./bin/claudepretty.js"
   },
-  "keywords": ["cli", "json", "pretty", "stream"],
+  "keywords": [
+    "cli",
+    "json",
+    "pretty",
+    "stream"
+  ],
   "author": "",
   "license": "MIT"
 }
