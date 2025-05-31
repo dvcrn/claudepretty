@@ -1,0 +1,17 @@
+{
+  "name": "claudepretty",
+  "version": "1.0.0",
+  "description": "Pretty-print streamed JSON from stdin",
+  "scripts": {
+    "test": "mocha parser.test.js --exit"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0"
+  },
+  "bin": {
+    "claudepretty": "./bin/claudepretty.js"
+  },
+  "keywords": ["cli", "json", "pretty", "stream"],
+  "author": "",
+  "license": "MIT"
+}
