@@ -30,7 +30,7 @@
     "colors",
     "terminal"
   ],
-  "author": "David Mohl <david@mohl.dev> (https://github.com/dvcrn)",
+  "author": "David Mohl <git@d.sh> (https://github.com/dvcrn)",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -43,8 +43,13 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "files": ["bin/", "parser.js", "README.md"],
+  "files": [
+    "bin/",
+    "parser.js",
+    "README.md"
+  ],
   "dependencies": {
     "cli-color": "^2.0.4"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
