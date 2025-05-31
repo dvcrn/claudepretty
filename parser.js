@@ -1,4 +1,4 @@
-const clc = require('cli-color');
+const clc = require("cli-color");
 
 /**
  * Format assistant message content
@@ -7,7 +7,7 @@ const clc = require('cli-color');
  */
 function formatAssistantMessage(message) {
   if (!message.content) return "";
-  
+
   const parts = [];
   for (const content of message.content) {
     if (content.type === "text") {
@@ -26,7 +26,7 @@ function formatAssistantMessage(message) {
  */
 function formatUserMessage(message) {
   if (!message.content) return "";
-  
+
   const parts = [];
   for (const content of message.content) {
     if (content.type === "tool_result") {
@@ -34,9 +34,10 @@ function formatUserMessage(message) {
         parts.push(clc.red.bold(`[ERROR: ${content.content}]`));
       } else {
         // Truncate long tool results
-        const result = content.content.length > 100 
-          ? content.content.substring(0, 100) + "..."
-          : content.content;
+        const result =
+          content.content.length > 100
+            ? `${content.content.substring(0, 100)}...`
+            : content.content;
         parts.push(`[Tool result: ${result}]`);
       }
     } else if (typeof content === "string") {
@@ -54,34 +55,41 @@ function formatUserMessage(message) {
 function parseLine(line) {
   const trimmed = line.trim();
   if (!trimmed) return null;
-  
+
   try {
     const obj = JSON.parse(trimmed);
-    
+
     if (obj && typeof obj === "object" && obj.type) {
       switch (obj.type) {
         case "system":
           if (obj.subtype === "init") {
             const toolCount = Array.isArray(obj.tools) ? obj.tools.length : 0;
-            return clc.blue(`[SYSTEM] Session ${obj.session_id?.substring(0, 8)} started with ${toolCount} tools`);
+            return clc.blue(
+              `[SYSTEM] Session ${obj.session_id?.substring(0, 8)} started with ${toolCount} tools`,
+            );
           }
           return clc.blue(`[SYSTEM] ${obj.subtype || "unknown"}`);
-          
-        case "assistant":
+
+        case "assistant": {
           const content = formatAssistantMessage(obj.message);
           return clc.green(`[ASSISTANT] ${content}`);
-          
-        case "user":
+        }
+
+        case "user": {
           const userContent = formatUserMessage(obj.message);
           return clc.cyan(`[USER] ${userContent}`);
-          
-        case "result":
+        }
+
+        case "result": {
           const cost = obj.cost_usd ? `$${obj.cost_usd.toFixed(4)}` : "unknown";
           const duration = obj.duration_ms ? `${obj.duration_ms}ms` : "unknown";
           const status = obj.is_error ? "ERROR" : "SUCCESS";
           const resultText = `[RESULT] ${status} - Cost: ${cost}, Duration: ${duration}`;
-          return obj.is_error ? clc.red.bold(resultText) : clc.yellow(resultText);
-          
+          return obj.is_error
+            ? clc.red.bold(resultText)
+            : clc.yellow(resultText);
+        }
+
         default:
           // Fallback to generic formatting
           return Object.entries(obj)
@@ -94,7 +102,7 @@ function parseLine(line) {
             .join(", ");
       }
     }
-    
+
     // For arrays or other types, stringify
     return JSON.stringify(obj);
   } catch (e) {
@@ -111,7 +119,7 @@ function parse(input) {
   return input
     .split(/\r?\n/) // split lines
     .map(parseLine) // parse each line
-    .filter(line => line !== null); // remove null results
+    .filter((line) => line !== null); // remove null results
 }
 
 module.exports = { parse, parseLine };

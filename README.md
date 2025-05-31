@@ -1,32 +1,37 @@
 # claudepretty
 
-Pretty-print streamed JSON from stdin in a human-friendly format.
+A CLI tool for pretty-printing streamed JSON output from Claude's `--output-format stream-json --verbose` non-interactive mode.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
+
+Generates this:
+
+![screenshots](./screenshots/after.png)
+
+From this:
+
+![screenshots](./screenshots/before.png)
 
 ## Installation
 
-Use `just` to install dependencies and link the CLI globally:
-
-    just install
-
-Or install via npm:
-
-    cd /Users/david/src/claudepretty && npm install -g .
+```bash
+npm install -g claudepretty
+```
 
 ## Usage
 
-Pipe JSON output into the CLI for pretty-printing:
+Use with Claude's streaming JSON output:
 
-    echo '{"type":"system","subtype":"init","session_id":"..."}' | claudepretty
+```bash
+claude -p "create a simple todo app" --verbose --output-format stream-json | claudepretty
+```
 
-You can also stream multiple JSON objects, one per line:
+## Requirements
 
-    tail -f logfile.json | claudepretty
-
-## Development
-
-- `just install` to set up
-- `just test` to run tests (if any)
+- Node.js 18.0.0+
+- Used exclusively with piped input
 
 ## License
 
-MIT
+MIT © [David Mohl](https://github.com/dvcrn)

@@ -1,11 +1,16 @@
 {
   "name": "claudepretty",
   "version": "1.0.0",
-  "description": "Pretty-print streamed JSON from stdin",
+  "description": "A CLI tool for pretty-printing streamed JSON output from Claude's --output-format stream-json mode",
   "scripts": {
-    "test": "mocha parser.test.js --exit"
+    "test": "mocha parser.test.js --exit",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check .",
+    "format:check": "biome format ."
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "mocha": "^10.2.0"
   },
   "bin": {
@@ -15,10 +20,30 @@
     "cli",
     "json",
     "pretty",
-    "stream"
+    "stream",
+    "claude",
+    "anthropic",
+    "ai",
+    "conversation",
+    "logs",
+    "formatting",
+    "colors",
+    "terminal"
   ],
-  "author": "",
+  "author": "David Mohl <david@mohl.dev> (https://github.com/dvcrn)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dvcrn/claudepretty.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dvcrn/claudepretty/issues"
+  },
+  "homepage": "https://github.com/dvcrn/claudepretty#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": ["bin/", "parser.js", "README.md"],
   "dependencies": {
     "cli-color": "^2.0.4"
   }
