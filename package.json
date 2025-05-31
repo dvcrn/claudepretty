@@ -18,5 +18,8 @@
     "stream"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cli-color": "^2.0.4"
+  }
 }

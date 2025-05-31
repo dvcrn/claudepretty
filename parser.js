@@ -1,3 +1,5 @@
+const clc = require('cli-color');
+
 /**
  * Format assistant message content
  * @param {Object} message Message object
@@ -29,7 +31,7 @@ function formatUserMessage(message) {
   for (const content of message.content) {
     if (content.type === "tool_result") {
       if (content.is_error) {
-        parts.push(`[ERROR: ${content.content}]`);
+        parts.push(clc.red.bold(`[ERROR: ${content.content}]`));
       } else {
         // Truncate long tool results
         const result = content.content.length > 100 
@@ -61,23 +63,24 @@ function parseLine(line) {
         case "system":
           if (obj.subtype === "init") {
             const toolCount = Array.isArray(obj.tools) ? obj.tools.length : 0;
-            return `[SYSTEM] Session ${obj.session_id?.substring(0, 8)} started with ${toolCount} tools`;
+            return clc.blue(`[SYSTEM] Session ${obj.session_id?.substring(0, 8)} started with ${toolCount} tools`);
           }
-          return `[SYSTEM] ${obj.subtype || "unknown"}`;
+          return clc.blue(`[SYSTEM] ${obj.subtype || "unknown"}`);
           
         case "assistant":
           const content = formatAssistantMessage(obj.message);
-          return `[ASSISTANT] ${content}`;
+          return clc.green(`[ASSISTANT] ${content}`);
           
         case "user":
           const userContent = formatUserMessage(obj.message);
-          return `[USER] ${userContent}`;
+          return clc.cyan(`[USER] ${userContent}`);
           
         case "result":
           const cost = obj.cost_usd ? `$${obj.cost_usd.toFixed(4)}` : "unknown";
           const duration = obj.duration_ms ? `${obj.duration_ms}ms` : "unknown";
           const status = obj.is_error ? "ERROR" : "SUCCESS";
-          return `[RESULT] ${status} - Cost: ${cost}, Duration: ${duration}`;
+          const resultText = `[RESULT] ${status} - Cost: ${cost}, Duration: ${duration}`;
+          return obj.is_error ? clc.red.bold(resultText) : clc.yellow(resultText);
           
         default:
           // Fallback to generic formatting
